@@ -4,5 +4,5 @@
 <hr>
 <p>Print do Projeto</p>
 <br>
-<img src='./Portifolio.png' alt='Project'></img>
+<img src='./Portifolio-foto.png' alt='Project'></img>
 <hr>
