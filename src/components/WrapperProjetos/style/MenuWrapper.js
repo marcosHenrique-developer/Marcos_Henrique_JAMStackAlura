@@ -97,6 +97,9 @@ const Card = styled.div`
   align-items: center;
   justify-content: center;
   ${breakpointsMedia({
+    xs: css`
+      flex-wrap: wrap;
+    `,
     sm: css`
       flex-wrap: wrap;
     `,
