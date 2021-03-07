@@ -65,7 +65,7 @@ Text.defaultProps = {
 };
 
 Text.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   tag: PropTypes.PropTypes.string.isRequired,
   variant: PropTypes.PropTypes.string.isRequired,
 };

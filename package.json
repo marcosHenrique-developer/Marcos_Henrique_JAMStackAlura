@@ -4,10 +4,13 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint --ignore-path .gitignore ."
   },
   "dependencies": {
+    "@crello/react-lottie": "0.0.11",
     "@styled-icons/feather": "^10.18.0",
+    "framer-motion": "^3.10.0",
     "lodash": "^4.17.20",
     "next": "latest",
     "normalize.css": "^8.0.1",
