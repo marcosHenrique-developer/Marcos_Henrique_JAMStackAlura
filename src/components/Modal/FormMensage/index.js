@@ -176,7 +176,11 @@ const FormContent = () => {
         </div>
 
         <Box display="flex" justifyContent="center">
-          <Box width="150px" height="150px">
+          <Box
+            width={{ xs: '80px', md: '150px' }}
+            height={{ xs: '80px', md: '150px' }}
+            marginBottom={{ xs: '2rem', md: '0' }}
+          >
             {isFormSubmited && submissionStatus === formStates.LOADING && (
               <Result animation={formStates.LOADING} />
             )}

@@ -6,7 +6,7 @@ import { breakpointsMedia } from '../../../theme/utils/breakpointMedia';
 
 export const Wrapper = styled.section`
   width: 80%;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: #f2f2f2;
   margin: 1rem auto auto auto;
   display: flex;
   justify-content: center;

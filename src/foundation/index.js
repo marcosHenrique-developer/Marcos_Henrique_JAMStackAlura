@@ -1,3 +1,5 @@
+/* eslint-disable object-curly-newline */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/default-props-match-prop-types */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/jsx-filename-extension */
@@ -8,21 +10,23 @@ import get from 'lodash/get';
 import PropTypes from 'prop-types';
 import { breakpointsMedia } from '../theme/utils/breakpointMedia';
 import { propToStyle } from '../theme/utils/propStyle';
+import { Links } from '../components/Links';
 
 const paragraph1 = css`
-  ${({ theme }) => css`
-    font-size: ${theme.typographyVariants.paragraph1.fontSize};
-    font-weight: ${theme.typographyVariants.paragraph1.fontWeight};
-    line-height: ${theme.typographyVariants.paragraph1.lineHeight};
-  `}
+  font-size: ${({ theme }) => theme.typographyVariants.paragraph1.fontSize};
+  font-weight: ${({ theme }) => theme.typographyVariants.paragraph1.fontWeight};
+  line-height: ${({ theme }) => theme.typographyVariants.paragraph1.lineHeight};
 `;
+
 const smallestException = css`
-  ${({ theme }) => css`
-    font-size: ${theme.typographyVariants.smallestException.fontSize};
-    font-weight: ${theme.typographyVariants.smallestException.fontWeight};
-    line-height: ${theme.typographyVariants.smallestException.lineHeight};
-  `}
+  font-size: ${({ theme }) =>
+    theme.typographyVariants.smallestException.fontSize};
+  font-weight: ${({ theme }) =>
+    theme.typographyVariants.smallestException.fontWeight};
+  line-height: ${({ theme }) =>
+    theme.typographyVariants.smallestException.lineHeight};
 `;
+
 export const TextStyleVariants = {
   smallestException,
   paragraph1,
@@ -45,27 +49,49 @@ export const TextStyleVariants = {
 };
 
 const TextBase = styled.span`
-  ${({ variant }) => TextStyleVariants[variant]}
+  ${(props) => TextStyleVariants[props.variant]}
   color: ${({ theme, color }) => get(theme, `colors.${color}.color`)};
-  ${propToStyle('textAlign')};
+  ${propToStyle('textAlign')}
+  ${propToStyle('marginBottom')}
+  ${propToStyle('margin')}
 `;
-// eslint-disable-next-line object-curly-newline
-export default function Text({ variant, children, tag, ...props }) {
+
+export default function Text({ tag, href, variant, children, ...props }) {
+  if (href) {
+    return (
+      <TextBase
+        as={Links}
+        variant={variant}
+        href={href}
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+      >
+        {children}
+      </TextBase>
+    );
+  }
+
   return (
-    // eslint-disable-next-line react/jsx-props-no-spreading
-    <TextBase as={tag} variant={variant} {...props}>
+    <TextBase
+      as={tag}
+      variant={variant}
+      // eslint-disable-next-line react/jsx-props-no-spreading
+      {...props}
+    >
       {children}
     </TextBase>
   );
 }
+Text.propTypes = {
+  tag: PropTypes.string,
+  variant: PropTypes.string,
+  children: PropTypes.node,
+  href: PropTypes.string,
+};
 
 Text.defaultProps = {
   tag: 'span',
   variant: 'paragraph1',
-};
-
-Text.propTypes = {
-  children: PropTypes.node,
-  tag: PropTypes.PropTypes.string.isRequired,
-  variant: PropTypes.PropTypes.string.isRequired,
+  children: null,
+  href: '',
 };
