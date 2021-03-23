@@ -35,7 +35,7 @@ export default function SobreMim({ gitRepos }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <About>
-      <Image src="/me.jpg" alt="Marcos" height={200} width={200} />
+      <Image src="/Me.jpg" alt="Marcos" height={200} width={200} />
       <Mensage>
         <Text as="p" variant="paragraph1" color="tertiary.light">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
