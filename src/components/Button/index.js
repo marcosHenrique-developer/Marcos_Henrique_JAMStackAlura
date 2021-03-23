@@ -12,6 +12,9 @@ const ButtonWrapper = styled.button`
   background-color: rgba(0, 150, 136, 0.4);
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius.card};
+  display: flex;
+  justify-content: center;
+  align-items: center;
   ${breakpointsMedia({
     xs: css`
       & {
@@ -25,6 +28,10 @@ const ButtonWrapper = styled.button`
         line-height: ${({ theme }) =>
           theme.typographyVariants.smallestException.lineHeight};
       }
+      & {
+        padding: 0.4rem;
+        width: 3.5rem;
+      }
     `,
     md: css`
       & span {
@@ -33,7 +40,7 @@ const ButtonWrapper = styled.button`
       }
 
       & {
-        padding: 0.5rem;
+        padding: 0.8rem;
         width: 7rem;
       }
       & span {
@@ -47,6 +54,7 @@ const ButtonWrapper = styled.button`
   &:hover,
   &:active {
     background-color: rgba(0, 150, 136, 0.8);
+    color: white;
     & span,
     & path {
       color: white;
@@ -63,11 +71,12 @@ const ButtonWrapper = styled.button`
   }
 `;
 
-export default function Button({ children, onClick, disabled }) {
+// eslint-disable-next-line object-curly-newline
+export default function Button({ href, children, onClick, disabled }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <ButtonWrapper type="submit" onClick={onClick} disabled={disabled}>
-      <Text tag="span" mobile="paragraphXS" desktop="paragraphMD">
+      <Text tag="span" mobile="paragraphXS" desktop="paragraphMD" href={href}>
         {children}
       </Text>{' '}
     </ButtonWrapper>
@@ -76,9 +85,11 @@ export default function Button({ children, onClick, disabled }) {
 Button.defaultProps = {
   onClick: undefined,
   disabled: false,
+  href: '',
 };
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  href: PropTypes.string,
 };

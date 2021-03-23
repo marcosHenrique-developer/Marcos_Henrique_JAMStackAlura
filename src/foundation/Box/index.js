@@ -16,5 +16,8 @@ const Box = styled.div`
   ${propToStyle('padding')}
   ${propToStyle('cursor')}
   ${propToStyle('width')}
+  ${propToStyle('top')}
+  ${propToStyle('left')}
+  ${propToStyle('fontSize')}
 `;
 export default Box;

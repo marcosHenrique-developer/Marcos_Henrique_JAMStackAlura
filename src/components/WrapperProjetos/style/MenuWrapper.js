@@ -1,10 +1,13 @@
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable indent */
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { breakpointsMedia } from '../../../theme/utils/breakpointMedia';
-
+import data from '../../../../db';
 import { TextStyleVariants } from '../../../foundation';
+import { Links } from '../../Links';
+import { Cards } from '../../Cards';
 
 export const ProjetoWrapper = styled.div`
   align-items: center;
@@ -69,76 +72,28 @@ export const ProjetoWrapper = styled.div`
   }
 `;
 
-const ProjetoImage = styled.img`
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 1px 1px 8px 1px yellowgreen;
-  border-radius: 15px;
-  transition: 0.3s;
-`;
-
-const ProjetoNome = styled.p`
-  color: white;
-  font-size: 18px;
-  font-weight: 500;
-  margin: 5px;
-  text-align: center;
-  width: 100%;
-  background-color: ${({ theme }) => theme.colors.primary.main.color};
-  border-radius: 15px;
-  color: ${({ theme }) => theme.colors.primary.main.color.contrastText};
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.secondary.main.color};
-  }
-`;
-const Card = styled.div`
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  justify-content: center;
-  ${breakpointsMedia({
-    xs: css`
-      flex-wrap: wrap;
-    `,
-    sm: css`
-      flex-wrap: wrap;
-    `,
-    md: css`
-      flex-wrap: nowrap;
-    `,
-  })}
-`;
-// const CardImage = styled.div`
-//   background: #000;
-// `;
-
 export default function ProjetoCard() {
+  const { projects } = data;
   return (
-    <>
-      <Card>
-        {[
-          {
-            url:
-              'https://insta-projeto-nextjs.marcoshenrique-developer.vercel.app/',
-            name: 'Instalura',
-            src: '/imgs/Project-insta.png',
-            alt: 'Foto do projeto Insta',
-          },
-          {
-            url: 'https://github.com/marcosHenrique-developer?tab=repositories',
-            name: 'Repositório e Perfil GitHub',
-            src: '/imgs/github.png',
-            alt: 'Foto do Perfil GitHub',
-          },
-        ].map((link) => (
-          <ProjetoWrapper key={link.url}>
-            <a href={link.url}>
-              <ProjetoImage src={link.src} alt={link.alt} />
-              <ProjetoNome>{link.name}</ProjetoNome>
-            </a>
-          </ProjetoWrapper>
-        ))}
-      </Card>
-    </>
+    <div>
+      {/* {projects.map((project) => console.log(project))} */}
+      {projects.map(
+        (project) => (
+          // eslint-disable-next-line implicit-arrow-linebreak
+          <Links
+            key={project.id}
+            href={`/project/${project.slug}`}
+            display="contents"
+          >
+            <Cards
+              key={project.id}
+              project={project}
+              size={{ xs: 12, md: 12 }}
+            />
+          </Links>
+        ),
+        // eslint-disable-next-line function-paren-newline
+      )}
+    </div>
   );
 }
