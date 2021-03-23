@@ -54,6 +54,7 @@ const ButtonWrapper = styled.button`
   &:hover,
   &:active {
     background-color: rgba(0, 150, 136, 0.8);
+    color: white;
     & span,
     & path {
       color: white;

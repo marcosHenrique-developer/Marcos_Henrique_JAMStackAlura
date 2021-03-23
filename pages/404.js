@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Button from '../src/components/Button';
 import websitePageHOC from '../src/components/Hoc';
 
@@ -31,11 +30,7 @@ function Page404() {
     // eslint-disable-next-line react/jsx-filename-extension
     <PageError>
       <Wrapper>
-        <Button href="/">
-          <ArrowBackIcon
-            style={{ alingItems: 'center', justifyContent: 'center' }}
-          />
-        </Button>
+        <Button href="/">Home</Button>
       </Wrapper>
     </PageError>
   );
