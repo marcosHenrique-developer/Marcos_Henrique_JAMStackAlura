@@ -75,7 +75,7 @@ export const ProjetoWrapper = styled.div`
 export default function ProjetoCard() {
   const { projects } = data;
   return (
-    <ProjetoWrapper>
+    <div>
       {projects.map(
         (project) =>
           // eslint-disable-next-line implicit-arrow-linebreak
@@ -106,6 +106,6 @@ export default function ProjetoCard() {
           ),
         // eslint-disable-next-line function-paren-newline
       )}
-    </ProjetoWrapper>
+    </div>
   );
 }
