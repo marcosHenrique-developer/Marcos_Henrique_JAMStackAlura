@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-// import images from '../../../db.json';
+import Image from 'next/image';
 import Text from '../../foundation';
 import Box from '../../foundation/Box';
 
@@ -13,7 +13,8 @@ export default function SobreMim({ gitRepos }) {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 1rem auto;
+    margin: 2rem auto;
+
     img {
       height: 200px;
       width: 200px;
@@ -24,6 +25,7 @@ export default function SobreMim({ gitRepos }) {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 1rem;
+    margin: 0.5rem auto;
     width: 60%;
   `;
   // const CardProjects = styled.div`
@@ -33,7 +35,7 @@ export default function SobreMim({ gitRepos }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
     <About>
-      <img src="./me.jpg" alt="Marcos" />
+      <Image src="/me.jpg" alt="Marcos" height={200} width={200} />
       <Mensage>
         <Text as="p" variant="paragraph1" color="tertiary.light">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do

@@ -75,25 +75,37 @@ export const ProjetoWrapper = styled.div`
 export default function ProjetoCard() {
   const { projects } = data;
   return (
-    <div>
-      {/* {projects.map((project) => console.log(project))} */}
+    <ProjetoWrapper>
       {projects.map(
-        (project) => (
+        (project) =>
           // eslint-disable-next-line implicit-arrow-linebreak
-          <Links
-            key={project.id}
-            href={`/project/${project.slug}`}
-            display="contents"
-          >
-            <Cards
+          project.highlight ? (
+            <Links
               key={project.id}
-              project={project}
-              size={{ xs: 12, md: 12 }}
-            />
-          </Links>
-        ),
+              href={`/project/${project.slug}`}
+              display="contents"
+            >
+              <Cards
+                key={project.id}
+                project={project}
+                size={{ xs: 12, md: 12 }}
+              />
+            </Links>
+          ) : (
+            <Links
+              key={project.id}
+              href={`/project/${project.slug}`}
+              display="contents"
+            >
+              <Cards
+                key={project.id}
+                project={project}
+                size={{ xs: 12, md: 4 }}
+              />
+            </Links>
+          ),
         // eslint-disable-next-line function-paren-newline
       )}
-    </div>
+    </ProjetoWrapper>
   );
 }

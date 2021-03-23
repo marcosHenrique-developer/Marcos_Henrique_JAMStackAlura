@@ -8,6 +8,7 @@ const data = {
       description:
         'Nulla velit ea eu anim magna ad sunt reprehenderit eiusmod anim. Deserunt ea ad excepteur irure esse pariatur ullamco ipsum minim ipsum commodo quis fugiat quis. Commodo adipisicing nisi culpa commodo ea sunt ullamco ad dolor sint excepteur. Magna deserunt anim aliqua pariatur nostrud fugiat reprehenderit dolor fugiat incididunt aliqua. Lorem anim eiusmod in adipisicing adipisicing laborum nulla.',
       link: 'http://pudim.com.br/',
+      highlight: true,
     },
     {
       id: 2,
