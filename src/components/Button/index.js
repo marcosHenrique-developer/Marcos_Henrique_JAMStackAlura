@@ -72,10 +72,10 @@ const ButtonWrapper = styled.button`
 `;
 
 // eslint-disable-next-line object-curly-newline
-export default function Button({ href, children, onClick, disabled }) {
+export default function Button({ href, children, onClick, disabled, types }) {
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <ButtonWrapper type="submit" onClick={onClick} disabled={disabled}>
+    <ButtonWrapper type={types} onClick={onClick} disabled={disabled}>
       <Text tag="span" mobile="paragraphXS" desktop="paragraphMD" href={href}>
         {children}
       </Text>{' '}
@@ -86,10 +86,12 @@ Button.defaultProps = {
   onClick: undefined,
   disabled: false,
   href: '',
+  types: '',
 };
 Button.propTypes = {
   children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
   disabled: PropTypes.bool,
+  types: PropTypes.string,
   href: PropTypes.string,
 };

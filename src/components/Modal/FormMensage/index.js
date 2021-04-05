@@ -1,16 +1,20 @@
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable no-console */
 /* eslint-disable operator-linebreak */
 /* eslint-disable indent */
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled, { css } from 'styled-components';
-
+import PropTypes from 'prop-types';
+import * as yup from 'yup';
 import { breakpointsMedia } from '../../../theme/utils/breakpointMedia';
 import Text from '../../../foundation';
 import Button from '../../Button';
 import TextField from '../../Input';
 import Result from './Result';
 import Box from '../../../foundation/Box';
+import { useForm } from '../../../infra/hooks/useForm';
+import { contactService } from '../../../services/contactService';
 
 const FormMessageWrapper = styled.section`
   width: 100%;
@@ -57,37 +61,64 @@ const formStates = {
   ERROR: 'ERROR',
 };
 
-const FormContent = () => {
-  const [isFormSubmited, setIsFormSubmited] = React.useState(false);
-  const [submissionStatus, setSubmissionStatus] = React.useState(
-    formStates.DEFAULT,
-  );
-  const [userInfo, setUserInfo] = React.useState({
-    email: '',
-    nome: '',
-  });
+const messageSchema = yup.object().shape({
+  name: yup
+    .string()
+    .required('Preencha o seu nome')
+    .min(2, 'O nome precisa ter pelo menos 2 caracteres'),
+  email: yup
+    .string()
+    .email('Digite um e-mail válido')
+    .required('Coloque o seu melhor e-mail')
+    .min(6, 'O e-mail precisa ter pelo menos 6 caracteres'),
+});
 
-  // eslint-disable-next-line operator-linebreak
-  const isFormInvalid =
-    userInfo.email.length === 0 || userInfo.nome.lenght === 0;
+const FormContent = ({
+  onSubmit,
+  formSubmission = false,
+  formState = formStates.DEFAULT,
+  props,
+}) => {
+  const [isFormSubmited, setIsFormSubmited] = React.useState(formSubmission);
+  const [submissionStatus, setSubmissionStatus] = React.useState(formState);
+  const initialValues = {
+    name: '',
+    email: '',
+  };
 
   async function resetValues() {
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-    setIsFormSubmited(false);
-    setSubmissionStatus(formStates.DEFAULT);
-    setUserInfo({ email: '', nome: '' });
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setSubmissionStatus('');
   }
 
-  function handleChange(ev) {
-    const fieldName = ev.target.getAttribute('name');
-    setUserInfo({
-      ...userInfo,
-      [fieldName]: ev.target.value,
-    });
-  }
+  const form = useForm({
+    initialValues,
+    onSubmit: async (values) => {
+      setSubmissionStatus(formStates.LOADING);
+      form.setIsFormDisabled(true);
+      contactService
+        .sendMessage(values)
+        .then(() => {
+          setSubmissionStatus(formStates.DONE);
+        })
+        .catch(() => {
+          setSubmissionStatus(formStates.ERROR);
+        })
+        .finally(() => {
+          setIsFormSubmited(true);
+          form.setIsFormDisabled(false);
+          resetValues();
+        });
+    },
+    validateSchema: async (values) =>
+      messageSchema.validate(values, {
+        abortEarly: false,
+      }),
+  });
+
   return (
     // eslint-disable-next-line react/jsx-filename-extension
-    <FormMessageWrapper.Content>
+    <FormMessageWrapper.Content {...props}>
       <FormMessageWrapper.Title>
         <Text tag="h1" mobile="subTitleXS" desktop="subTitleMD">
           {!isFormSubmited && 'Please type a valid message'}
@@ -102,58 +133,30 @@ const FormContent = () => {
             'Congratulations :)'}
         </Text>
       </FormMessageWrapper.Title>
-      <form
-        onSubmit={(ev) => {
-          ev.preventDefault();
-          setIsFormSubmited(true);
-          setSubmissionStatus(formStates.LOADING);
-          const userDTO = { username: userInfo.email, name: userInfo.nome };
-          setTimeout(() => {
-            fetch('https://instalura-api.vercel.app/api/users', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(userDTO),
-            })
-              .then((respostaDoServidor) => {
-                if (respostaDoServidor.ok) {
-                  return respostaDoServidor.json();
-                }
-                throw new Error(
-                  'Não foi possível cadastrar o usuário agora :(',
-                );
-              })
-              .then((respostaConvertidaEmObjeto) => {
-                setSubmissionStatus(formStates.DONE);
-                resetValues();
-                console.log(respostaConvertidaEmObjeto);
-              })
-              .catch((error) => {
-                setSubmissionStatus(formStates.ERROR);
-                resetValues();
-                console.error(error);
-              });
-          }, 500);
-        }}
-      >
+      <form onSubmit={onSubmit || form.handleSubmit}>
         <Text variant="title" tag="h1" color="tertiary.main">
           Entre em contato conosco
         </Text>
         <div>
           <TextField
             placeholder="Nome"
-            name="nome"
-            value={userInfo.nome}
-            onChange={handleChange}
+            name="name"
+            value={form.values.name}
+            error={form.errors.name}
+            isTouched={form.isTouched.name}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
         </div>
         <div>
           <TextField
             placeholder="Email"
             name="email"
-            value={userInfo.email}
-            onChange={handleChange}
+            value={form.values.email}
+            error={form.errors.email}
+            isTouched={form.isTouched.email}
+            onChange={form.handleChange}
+            onBlur={form.handleBlur}
           />
         </div>
 
@@ -166,8 +169,8 @@ const FormContent = () => {
         >
           <Button
             variant="primary.main"
-            type="submit"
-            disabled={isFormInvalid}
+            types="submit"
+            disabled={form.isFormDisabled}
             fullWidth
             margin="0"
           >
@@ -179,7 +182,7 @@ const FormContent = () => {
           <Box
             width={{ xs: '80px', md: '150px' }}
             height={{ xs: '80px', md: '150px' }}
-            marginBottom={{ xs: '2rem', md: '0' }}
+            marginBottom={{ xs: '4rem', md: '0' }}
           >
             {isFormSubmited && submissionStatus === formStates.LOADING && (
               <Result animation={formStates.LOADING} />
@@ -221,5 +224,19 @@ const FormCadastro = ({ props }) => (
     </Box>
   </FormMessageWrapper>
 );
+
+FormContent.defaultProps = {
+  onSubmit: undefined,
+  formSubmission: false,
+  formState: formStates.DEFAULT,
+  props: undefined,
+};
+
+FormContent.propTypes = {
+  onSubmit: PropTypes.func,
+  formSubmission: PropTypes.bool,
+  formState: PropTypes.string,
+  props: PropTypes.node,
+};
 
 export default FormCadastro;
