@@ -25,7 +25,7 @@ export const Cabecalho = () => {
           </Text>
         </li>
       ))}
-      <Button type="submit" onClick={() => setOpen(!isModalOpen)}>
+      <Button types="button" onClick={() => setOpen(!isModalOpen)}>
         Contato
       </Button>
       <Modal

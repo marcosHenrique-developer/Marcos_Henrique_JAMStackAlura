@@ -4,7 +4,7 @@ import { breakpointsMedia } from '../../../theme/utils/breakpointMedia';
 import { propToStyle } from '../../../theme/utils/propStyle';
 
 // eslint-disable-next-line import/prefer-default-export
-export const CapaWrapper = styled.div`
+export const CapaContent = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -12,6 +12,8 @@ export const CapaWrapper = styled.div`
   width: 100%;
   min-height: 25vh;
   justify-content: center;
+  opacity: 50%;
+  transition: 0.5s;
   ${breakpointsMedia({
     xs: css`
       ${TextStyleVariants.smallestException}
@@ -29,6 +31,9 @@ export const CapaWrapper = styled.div`
       min-height: 35vh;
     `,
   })}
+  &:hover {
+    opacity: 100%;
+  }
   ${propToStyle('backgroundImage')}
   ${propToStyle('backgroundRepeat')}
     ${propToStyle('backgroundPosition')}
